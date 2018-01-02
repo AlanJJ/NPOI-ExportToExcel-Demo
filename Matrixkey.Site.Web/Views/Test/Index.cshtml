@@ -1,0 +1,323 @@
+﻿@{
+    Layout = null;
+    string initType = (string)ViewBag.InitType;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery/jquery-1.11.0.min.js"></script>
+    <script src="~/Scripts/jquery-extensions/jquery.jdirk.js"></script>
+    <link href="~/Scripts/jquery-easyui-1.4.3/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Scripts/jquery-easyui-1.4.3/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
+    <script src="~/Scripts/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/jquery-easyui-extensions/jeasyui.datagrid.extensions.js"></script>
+    <script>
+        //冻结列（复杂）、常规列（复杂）
+        var datagridInit1 = function () {
+
+            var getFrozenColumns = function () {
+                var result = [];
+
+                var c1 = [];
+                c1.push({ field: 'AreaName', title: '地区', width: 150, rowspan: 2 });
+                c1.push({ title: '性别', colspan: 2 });
+
+                var c2 = [];
+                c2.push({
+                    field: 'Sex1', title: '男', width: 90,
+                    formatter: function (val) {
+                        return val + "（男0）";
+                    }
+                });
+                c2.push({
+                    field: 'Sex2', title: '女', width: 90,
+                    formatter: function (val) {
+                        return val + "（女1）";
+                    }
+                });
+
+                result.push(c1);
+                result.push(c2);
+
+                return result;
+            };
+
+            var getColumns = function () {
+                var result = [];
+
+                var normal00000 = [
+                    { field: 'TS1', title: '测试1', width: 60 },
+                    { field: 'TS2', title: '测试2', width: 60 }
+                ];
+
+                result.push([{ title: "测试", colspan: 2 }]);
+                result.push(normal00000);
+
+                return result;
+            };
+
+            var options = {
+                title: "列表",
+                idField: "ID",
+                rownumbers: false,
+                fit: true,
+                border: false,
+                singleSelect: true,
+                toolbar: [{
+                    iconCls: 'icon-edit',
+                    text: "导出本页数据到excel",
+                    handler: function () {
+                        $("#dg").datagrid("exportData", { fileType: "excel", fileName: "1号标题" });
+                    }
+                }],
+                frozenColumns: getFrozenColumns(),
+                columns: getColumns(),
+                data: [
+                    { ID: 1, AreaName: "浙江", Sex1: 12, Sex2: 23, TS1: "T1", TS2: "T2" },
+                    { ID: 2, AreaName: "厦门", Sex1: 34, Sex2: 15, TS1: "T11", TS2: "T22" },
+                    { ID: 3, AreaName: "南京", Sex1: 43, Sex2: 58, TS1: "T111", TS2: "T222" }]
+            };
+
+            $("#dg").datagrid(options);
+        };
+
+        //冻结列（复杂）、常规列（简单，其实也有合并）
+        var datagridInit2 = function () {
+
+            var getFrozenColumns = function () {
+                var result = [];
+
+                var c1 = [];
+                c1.push({ field: 'AreaName', title: '地区', width: 150, rowspan: 2 });
+                c1.push({ title: '性别', colspan: 2 });
+
+                var c2 = [];
+                c2.push({
+                    field: 'Sex1', title: '男', width: 90,
+                    formatter: function (val) {
+                        return val + "（男0）";
+                    }
+                });
+                c2.push({
+                    field: 'Sex2', title: '女', width: 90,
+                    formatter: function (val) {
+                        return val + "（女1）";
+                    }
+                });
+
+                result.push(c1);
+                result.push(c2);
+
+                return result;
+            };
+
+            var getColumns = function () {
+                var result = [];
+
+                var normal00000 = [
+                    { field: 'TS1', title: '测试1', width: 60, rowspan: 2 },
+                    { field: 'TS2', title: '测试2', width: 60, rowspan: 2 }
+                ];
+
+                result.push(normal00000);
+                result.push([]);
+
+                return result;
+            };
+
+            var options = {
+                title: "列表",
+                idField: "ID",
+                rownumbers: false,
+                fit: true,
+                border: false,
+                singleSelect: true,
+                toolbar: [{
+                    iconCls: 'icon-edit',
+                    text: "导出本页数据到excel",
+                    handler: function () {
+                        $("#dg").datagrid("exportData", { fileType: "excel", fileName: "2号标题" });
+                    }
+                }],
+                frozenColumns: getFrozenColumns(),
+                columns: getColumns(),
+                data: [
+                    { ID: 1, AreaName: "浙江", Sex1: 12, Sex2: 23, TS1: "T1", TS2: "T2" },
+                    { ID: 2, AreaName: "厦门", Sex1: 34, Sex2: 15, TS1: "T11", TS2: "T22" },
+                    { ID: 3, AreaName: "南京", Sex1: 43, Sex2: 58, TS1: "T111", TS2: "T222" }]
+            };
+
+            $("#dg").datagrid(options);
+        };
+
+        //冻结列（简单，其实也有合并）、常规列（复杂）
+        var datagridInit3 = function () {
+
+            var getFrozenColumns = function () {
+                var result = [];
+
+                var c1 = [];
+                c1.push({ field: 'AreaName', title: '地区', width: 150, rowspan: 2 });
+                c1.push({
+                    field: 'Sex1', title: '男', width: 90, rowspan: 2,
+                    formatter: function (val) {
+                        return val + "（男0）";
+                    }
+                });
+                c1.push({
+                    field: 'Sex2', title: '女', width: 90, rowspan: 2,
+                    formatter: function (val) {
+                        return val + "（女1）";
+                    }
+                });
+
+                var c2 = [];
+
+                result.push(c1);
+                result.push(c2);
+
+                return result;
+            };
+
+            var getColumns = function () {
+                var result = [];
+
+                var normal00000 = [
+                    { field: 'TS1', title: '测试1', width: 60 },
+                    { field: 'TS2', title: '测试2', width: 60 }
+                ];
+
+                result.push([{ title: "测试", colspan: 2 }]);
+                result.push(normal00000);
+
+                return result;
+            };
+
+            var options = {
+                title: "列表",
+                idField: "ID",
+                rownumbers: false,
+                fit: true,
+                border: false,
+                singleSelect: true,
+                toolbar: [{
+                    iconCls: 'icon-edit',
+                    text: "导出本页数据到excel",
+                    handler: function () {
+                        $("#dg").datagrid("exportData", { fileType: "excel", fileName: "3号标题" });
+                    }
+                }],
+                frozenColumns: getFrozenColumns(),
+                columns: getColumns(),
+                data: [
+                    { ID: 1, AreaName: "浙江", Sex1: 12, Sex2: 23, TS1: "T1", TS2: "T2" },
+                    { ID: 2, AreaName: "厦门", Sex1: 34, Sex2: 15, TS1: "T11", TS2: "T22" },
+                    { ID: 3, AreaName: "南京", Sex1: 43, Sex2: 58, TS1: "T111", TS2: "T222" }]
+            };
+
+            $("#dg").datagrid(options);
+        };
+
+        //冻结列（简单，无合并）、常规列（简单，无合并）
+        var datagridInit4 = function () {
+
+            var getFrozenColumns = function () {
+                var result = [];
+
+                var c1 = [];
+                c1.push({ field: '333', title: '123', width: 100, checkbox: true });
+                c1.push({ field: '444', title: '456', width: 100, hidden: true });
+                c1.push({ field: 'AreaName', title: '地区', width: 150 });
+                c1.push({
+                    field: 'Sex1', title: '男', width: 90,
+                    formatter: function (val) {
+                        return val + "（男0）";
+                    }
+                });
+                c1.push({
+                    field: 'Sex2', title: '女', width: 90,
+                    formatter: function (val) {
+                        return val + "（女1）";
+                    }
+                });
+
+                result.push(c1);
+
+                return result;
+            };
+
+            var getColumns = function () {
+                var result = [];
+
+                var normal00000 = [
+                    { field: 'TS1', title: '测试1', width: 60 },
+                    { field: 'TS2', title: '测试2', width: 60 },
+                    { field: 'TS3', title: '测试3', width: 60, hidden: true },
+                    {
+                        field: 'TS4', title: '测试4', width: 160,
+                        formatter: function (val, row) {
+                            return "我擦擦擦" + val;
+                        }
+                    }
+                ];
+                result.push(normal00000);
+
+                return result;
+            };
+
+            var options = {
+                title: "列表",
+                idField: "ID",
+                rownumbers: false,
+                fit: true,
+                border: false,
+                singleSelect: true,
+                toolbar: [{
+                    iconCls: 'icon-edit',
+                    text: "导出本页数据到excel",
+                    handler: function () {
+                        $("#dg").datagrid("exportData", { fileType: "excel", fileName: "4号标题" });
+                    }
+                }],
+                frozenColumns: getFrozenColumns(),
+                columns: getColumns(),
+                data: [
+                    { ID: 1, AreaName: "浙江", Sex1: 12, Sex2: 23, TS1: "T1", TS2: "T2" },
+                    { ID: 2, AreaName: "厦门", Sex1: 34, Sex2: 15, TS1: "T11", TS2: "T22" },
+                    { ID: 3, AreaName: "南京", Sex1: 43, Sex2: 58, TS1: "T111", TS2: "T222" }]
+            };
+
+            $("#dg").datagrid(options);
+        };
+
+        $(function () {
+
+            var functionFormat = "function(){ datagridInit@(initType)(); }", func1 = $.string.toFunction(functionFormat);
+            if ($.isFunction(func1)) { func1(); }
+
+        });
+    </script>
+</head>
+<body class="easyui-layout" style="height:100%;width:100%;font-size:12px;">
+    <div data-options="region:'north'" style="height:250px;font-size:25px;padding:15px;">
+        落阳-利用NPOI将DataTable、DataSet数据导出到Excel-ASP.NET MVC Demo  也在本Demo之中
+        <br />
+        <a target="_blank" href="/Home/Index">查看</a>
+        <br /><br />
+        导出easyui-datagrid到excel的页面在/Test/Index中，里面定义了4种“不同标题列”的初始化方法，请尝试导出。
+        <br /><br />
+        @for (int a = 1; a <= 4; a++)
+        { 
+            <a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="window.location.href='/Test/Index?type=@(a)'">@(a)号标题列</a>
+        }
+    </div>
+    <div data-options="region:'center'">
+        <table id="dg"></table>
+    </div>
+</body>
+</html>
